@@ -1,12 +1,47 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 import logo from '../assets/logo.svg';
+
+const BrazilFlag = ({ className }) => (
+  <svg viewBox="0 0 640 480" className={className}>
+    <rect width="640" height="480" fill="#009b3a" />
+    <polygon points="320,39 590,240 320,441 50,240" fill="#fedf00" />
+    <circle cx="320" cy="240" r="100" fill="#002776" />
+    <path d="M195,240 Q320,160 445,240" fill="none" stroke="#fff" strokeWidth="14" />
+  </svg>
+);
+
+const USFlag = ({ className }) => (
+  <svg viewBox="0 0 640 480" className={className}>
+    <rect width="640" height="480" fill="#fff" />
+    <g>
+      {[0, 1, 2, 3, 4, 5, 6].map(i => (
+        <rect key={i} y={i * 68.57} width="640" height="34.28" fill="#b22234" />
+      ))}
+    </g>
+    <rect width="256" height="240" fill="#3c3b6e" />
+    {[0, 1, 2, 3, 4].map(row =>
+      [0, 1, 2, 3, 4, 5].map(col => (
+        <circle key={`${row}-${col}`} cx={21.3 + col * 42.6} cy={20 + row * 48} r="8" fill="#fff" />
+      ))
+    )}
+    {[0, 1, 2, 3].map(row =>
+      [0, 1, 2, 3, 4].map(col => (
+        <circle key={`s${row}-${col}`} cx={42.6 + col * 42.6} cy={44 + row * 48} r="8" fill="#fff" />
+      ))
+    )}
+  </svg>
+);
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { language, toggleLanguage } = useLanguage();
+  const t = translations[language];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,10 +77,10 @@ const Header = () => {
   };
 
   const menuItems = [
-    { label: 'Inicio', id: 'home' },
-    { label: 'Sobre', id: 'about' },
-    { label: 'Projetos', id: 'projects' },
-    { label: 'Contato', id: 'contact' }
+    { label: t.nav.home, id: 'home' },
+    { label: t.nav.about, id: 'about' },
+    { label: t.nav.projects, id: 'projects' },
+    { label: t.nav.contact, id: 'contact' }
   ];
 
   return (
@@ -89,7 +124,7 @@ const Header = () => {
               whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
               className="p-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200"
-              aria-label={isDarkMode ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              aria-label={isDarkMode ? t.theme.light : t.theme.dark}
             >
               {isDarkMode ? (
                 <Sun className="w-5 h-5 text-foreground" />
@@ -97,16 +132,48 @@ const Header = () => {
                 <Moon className="w-5 h-5 text-foreground" />
               )}
             </motion.button>
+
+            {/* Language Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden"
+              aria-label={language === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
+            >
+              {language === 'pt' ? (
+                <USFlag className="w-5 h-4 rounded-sm" />
+              ) : (
+                <BrazilFlag className="w-5 h-4 rounded-sm" />
+              )}
+              <span className="uppercase">{language === 'pt' ? 'EN' : 'PT'}</span>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="md:hidden flex items-center space-x-2">
+            {/* Language Toggle Mobile */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleLanguage}
+              className="flex items-center gap-1 px-2.5 py-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden"
+              aria-label={language === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
+            >
+              {language === 'pt' ? (
+                <USFlag className="w-5 h-4 rounded-sm" />
+              ) : (
+                <BrazilFlag className="w-5 h-4 rounded-sm" />
+              )}
+              <span className="uppercase text-xs">{language === 'pt' ? 'EN' : 'PT'}</span>
+            </motion.button>
+
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
               className="p-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200"
-              aria-label={isDarkMode ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              aria-label={isDarkMode ? t.theme.light : t.theme.dark}
             >
               {isDarkMode ? (
                 <Sun className="w-5 h-5 text-foreground" />
@@ -120,7 +187,7 @@ const Header = () => {
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200"
-              aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-label={isMenuOpen ? t.menu.close : t.menu.open}
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6 text-foreground" />
