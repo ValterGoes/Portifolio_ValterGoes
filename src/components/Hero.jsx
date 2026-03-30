@@ -7,9 +7,13 @@ const WhatsAppIcon = ({ className }) => (
   </svg>
 );
 import { portfolioData } from '../data/portfolio';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 
 const Hero = () => {
   const { aboutMe, contact } = portfolioData;
+  const { language } = useLanguage();
+  const t = translations[language].hero;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,7 +62,7 @@ const Hero = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                {aboutMe.title.default}
+                {t.greeting}
               </motion.p>
 
               <motion.h1
@@ -77,10 +81,10 @@ const Hero = () => {
                 transition={{ delay: 0.5 }}
               >
                 <span className="text-2xl md:text-3xl font-bold text-primary">
-                  {aboutMe.pfp.experience.bold}
+                  {t.role}
                 </span>
                 <span className="text-2xl md:text-3xl text-muted-foreground">
-                  {aboutMe.pfp.experience.default}
+                  {t.roleLabel}
                 </span>
               </motion.div>
             </motion.div>
@@ -89,13 +93,13 @@ const Hero = () => {
               variants={itemVariants}
               className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
             >
-              {aboutMe.description}
+              {t.description}
             </motion.p>
 
             {/* Tech Stack */}
             <motion.div variants={itemVariants} className="space-y-4">
               <p className="text-sm font-semibold text-foreground uppercase tracking-wider">
-                Tecnologias que uso
+                {t.techsLabel}
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 {aboutMe.techs.map((tech, index) => (
@@ -132,7 +136,7 @@ const Hero = () => {
                 className="px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200 flex items-center justify-center space-x-2"
               >
                 <WhatsAppIcon className="w-5 h-5" />
-                <span>Entre em contato</span>
+                <span>{t.cta}</span>
               </motion.a>
 
               <motion.a
@@ -143,7 +147,7 @@ const Hero = () => {
                 className="px-8 py-4 border border-border text-foreground rounded-lg font-semibold hover:bg-accent transition-colors duration-200 flex items-center justify-center space-x-2"
               >
                 <Download className="w-5 h-5" />
-                <span>Download CV</span>
+                <span>{t.downloadCv}</span>
               </motion.a>
             </motion.div>
 
@@ -205,7 +209,7 @@ const Hero = () => {
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="p-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200"
-            aria-label="Rolar para baixo"
+            aria-label={t.scrollDown}
           >
             <ArrowDown className="w-6 h-6 text-muted-foreground" />
           </motion.button>

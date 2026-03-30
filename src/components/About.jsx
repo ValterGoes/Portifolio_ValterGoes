@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
 import { portfolioData } from '../data/portfolio';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 
 const About = () => {
   const { skills } = portfolioData;
+  const { language } = useLanguage();
+  const t = translations[language].about;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,7 +37,7 @@ const About = () => {
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Sobre Mim
+              {t.title}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
           </motion.div>
@@ -41,29 +45,25 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div variants={itemVariants} className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Na DS4 Tech, atuei por quase 2 anos como Software Developer Front-end, onde
-                desenvolvi bibliotecas de componentes reutilizáveis em React.js com TailwindCSS,
-                integrei APIs REST e colaborei em cerimônias Scrum com versionamento Git/GitHub.
+                {t.bio1}
               </p>
 
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Atualmente freelancer, crio landing pages e aplicações web para clientes reais.
-                Cursando Análise e Desenvolvimento de Sistemas na Universidade La Salle e
-                certificado Full Stack pela OneBitCode. Familiarizado com AWS Cloud e SQL básico.
+                {t.bio2}
               </p>
 
               <div className="flex items-center space-x-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">2+</div>
-                  <div className="text-sm text-muted-foreground">Anos de Exp.</div>
+                  <div className="text-sm text-muted-foreground">{t.yearsExp}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">10+</div>
-                  <div className="text-sm text-muted-foreground">Tecnologias</div>
+                  <div className="text-sm text-muted-foreground">{t.technologies}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">ADS</div>
-                  <div className="text-sm text-muted-foreground">La Salle</div>
+                  <div className="text-sm text-muted-foreground">{t.education}</div>
                 </div>
               </div>
             </motion.div>
@@ -71,7 +71,7 @@ const About = () => {
             <motion.div variants={itemVariants} className="space-y-8">
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">
-                  Frontend
+                  {t.frontend}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skills.frontend.map((skill, index) => (
@@ -91,7 +91,7 @@ const About = () => {
 
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">
-                  Ferramentas
+                  {t.tools}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skills.tools.map((tool, index) => (
@@ -111,7 +111,7 @@ const About = () => {
 
               <div>
                 <h3 className="text-xl font-semibold text-foreground mb-4">
-                  Aprendendo
+                  {t.learning}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skills.learning.map((skill, index) => (

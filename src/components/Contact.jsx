@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Github, Linkedin, Send, GraduationCap, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Github, Linkedin, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 const WhatsAppIcon = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -8,10 +8,14 @@ const WhatsAppIcon = ({ className }) => (
   </svg>
 );
 import { portfolioData } from '../data/portfolio';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 
 const Contact = () => {
   const { contact } = portfolioData;
-  const [formState, setFormState] = useState('idle'); // idle | sending | success | error
+  const { language } = useLanguage();
+  const t = translations[language].contact;
+  const [formState, setFormState] = useState('idle');
   const [formData, setFormData] = useState({
     name: '', email: '', subject: '', message: ''
   });
@@ -42,7 +46,7 @@ const Contact = () => {
     setFormState('sending');
 
     const mailtoLink = `mailto:${contact.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-      `Nome: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+      `${language === 'pt' ? 'Nome' : 'Name'}: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
     )}`;
 
     window.open(mailtoLink, '_blank');
@@ -64,12 +68,11 @@ const Contact = () => {
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Entre em Contato
+              {t.title}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Estou sempre aberto a novas oportunidades e projetos interessantes.
-              Vamos conversar sobre como posso ajudar voce!
+              {t.subtitle}
             </p>
           </motion.div>
 
@@ -78,7 +81,7 @@ const Contact = () => {
             <motion.div variants={itemVariants} className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold text-foreground mb-6">
-                  Informacoes de Contato
+                  {t.info}
                 </h3>
 
                 <div className="space-y-6">
@@ -124,7 +127,7 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground">Localizacao</p>
+                      <p className="font-semibold text-foreground">{t.location}</p>
                       <p className="text-muted-foreground">{contact.location}</p>
                     </div>
                   </motion.div>
@@ -134,7 +137,7 @@ const Contact = () => {
               {/* Social Links */}
               <div>
                 <h4 className="text-lg font-semibold text-foreground mb-4">
-                  Redes e Perfis
+                  {t.socialTitle}
                 </h4>
                 <div className="flex space-x-4">
                   {[
@@ -166,7 +169,7 @@ const Contact = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Nome
+                      {t.form.name}
                     </label>
                     <input
                       type="text"
@@ -176,12 +179,12 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
-                      placeholder="Seu nome"
+                      placeholder={t.form.namePlaceholder}
                     />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email
+                      {t.form.email}
                     </label>
                     <input
                       type="email"
@@ -191,14 +194,14 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
-                      placeholder="seu@email.com"
+                      placeholder={t.form.emailPlaceholder}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                    Assunto
+                    {t.form.subject}
                   </label>
                   <input
                     type="text"
@@ -208,13 +211,13 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
-                    placeholder="Assunto da mensagem"
+                    placeholder={t.form.subjectPlaceholder}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Mensagem
+                    {t.form.message}
                   </label>
                   <textarea
                     id="message"
@@ -224,7 +227,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"
-                    placeholder="Sua mensagem..."
+                    placeholder={t.form.messagePlaceholder}
                   />
                 </div>
 
@@ -240,10 +243,10 @@ const Contact = () => {
                   {formState === 'error' && <AlertCircle className="w-5 h-5" />}
                   {formState === 'idle' && <Send className="w-5 h-5" />}
                   <span>
-                    {formState === 'sending' && 'Enviando...'}
-                    {formState === 'success' && 'Mensagem enviada!'}
-                    {formState === 'error' && 'Erro ao enviar. Tente novamente.'}
-                    {formState === 'idle' && 'Enviar'}
+                    {formState === 'sending' && t.form.sending}
+                    {formState === 'success' && t.form.success}
+                    {formState === 'error' && t.form.error}
+                    {formState === 'idle' && t.form.send}
                   </span>
                 </motion.button>
               </form>

@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code } from 'lucide-react';
 import { portfolioData } from '../data/portfolio';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 
 const Projects = () => {
   const { projects } = portfolioData;
+  const { language } = useLanguage();
+  const t = translations[language].projects;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,12 +37,11 @@ const Projects = () => {
         >
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Meus Projetos
+              {t.title}
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Projetos reais desenvolvidos para clientes e estudos pessoais,
-              demonstrando minhas habilidades em desenvolvimento front-end.
+              {t.subtitle}
             </p>
           </motion.div>
 
@@ -55,7 +58,7 @@ const Projects = () => {
                     href={project.demo || project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Ver ${project.name} na web`}
+                    aria-label={`${language === 'pt' ? 'Ver' : 'View'} ${project.name}`}
                   >
                     <img
                       src={project.image.url}
@@ -72,7 +75,7 @@ const Projects = () => {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
-                      aria-label={`Ver codigo de ${project.name} no GitHub`}
+                      aria-label={`${t.code} - ${project.name}`}
                     >
                       <Github className="w-6 h-6 text-white" />
                     </motion.a>
@@ -84,7 +87,7 @@ const Projects = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="p-3 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
-                        aria-label={`Ver demo de ${project.name}`}
+                        aria-label={`${t.demo} - ${project.name}`}
                       >
                         <ExternalLink className="w-6 h-6 text-white" />
                       </motion.a>
@@ -111,7 +114,7 @@ const Projects = () => {
                   </div>
 
                   <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {project.description}
+                    {t.descriptions[project.slug] || project.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -135,7 +138,7 @@ const Projects = () => {
                       className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors"
                     >
                       <Github className="w-4 h-4" />
-                      <span className="text-sm font-medium">Codigo</span>
+                      <span className="text-sm font-medium">{t.code}</span>
                     </motion.a>
                     {project.demo && (
                       <motion.a
@@ -147,7 +150,7 @@ const Projects = () => {
                         className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors"
                       >
                         <ExternalLink className="w-4 h-4" />
-                        <span className="text-sm font-medium">Demo</span>
+                        <span className="text-sm font-medium">{t.demo}</span>
                       </motion.a>
                     )}
                   </div>
@@ -169,7 +172,7 @@ const Projects = () => {
               className="inline-flex items-center space-x-2 px-6 py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
             >
               <Github className="w-5 h-5" />
-              <span>Ver mais no GitHub</span>
+              <span>{t.viewMore}</span>
             </motion.a>
           </motion.div>
         </motion.div>
