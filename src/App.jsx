@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import './App.css';
@@ -27,20 +28,22 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Header />
-      <main>
-        <Hero />
-        <Suspense fallback={<div className="min-h-[50vh]" />}>
-          <About />
-          <Projects />
-          <Contact />
+    <LanguageProvider>
+      <div className="min-h-screen bg-background text-foreground">
+        <Header />
+        <main>
+          <Hero />
+          <Suspense fallback={<div className="min-h-[50vh]" />}>
+            <About />
+            <Projects />
+            <Contact />
+          </Suspense>
+        </main>
+        <Suspense fallback={null}>
+          <Footer />
         </Suspense>
-      </main>
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }
 
