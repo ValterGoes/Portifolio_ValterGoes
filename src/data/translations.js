@@ -7,7 +7,7 @@ export const translations = {
       contact: 'Contato',
     },
     hero: {
-      greeting: 'Ola, sou o',
+      greeting: 'Olá, sou o',
       role: 'Desenvolvedor',
       roleLabel: 'Front-End',
       description:
