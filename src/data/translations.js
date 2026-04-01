@@ -11,7 +11,7 @@ export const translations = {
       role: 'Desenvolvedor',
       roleLabel: 'Front-End',
       description:
-        'Com experiência sólida em React.js, Tailwind CSS e integracao de APIs REST. Especializado em construir interfaces responsivas, componentizadas e de alta performance. Combino boas práticas de desenvolvimento com o uso estratégico de ferramentas de IA (Claude, GitHub Copilot) para acelerar entregas e elevar a qualidade do código.',
+        'Com experiência sólida em React.js, Tailwind CSS e integração de APIs REST. Especializado em construir interfaces responsivas, componentizadas e de alta performance. Combino boas práticas de desenvolvimento com o uso estratégico de ferramentas de IA (Claude, GitHub Copilot) para acelerar entregas e elevar a qualidade do código.',
       techsLabel: 'Tecnologias que uso',
       cta: 'Entre em contato',
       downloadCv: 'Download CV',
