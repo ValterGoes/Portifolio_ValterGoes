@@ -135,18 +135,34 @@ const Header = () => {
 
             {/* Language Toggle */}
             <motion.button
-              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-secondary transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden ${language === 'pt' ? 'flex-row' : 'flex-row-reverse'}`}
               aria-label={language === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
             >
-              {language === 'pt' ? (
-                <USFlag className="w-5 h-4 rounded-sm" />
-              ) : (
-                <BrazilFlag className="w-5 h-4 rounded-sm" />
-              )}
-              <span className="uppercase">{language === 'pt' ? 'EN' : 'PT'}</span>
+              <motion.div
+                layout
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="relative w-8 h-6 overflow-hidden rounded-full shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_2px_rgba(255,255,255,0.15)] dark:shadow-[1px_1px_3px_rgba(0,0,0,0.5),-1px_-1px_2px_rgba(255,255,255,0.08)] border border-white/20 dark:border-white/10"
+              >
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.div
+                    key={language}
+                    initial={{ x: -30, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 30, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    {language === 'pt' ? (
+                      <USFlag className="w-9 h-9" />
+                    ) : (
+                      <BrazilFlag className="w-9 h-9" />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
+              <motion.span layout transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="uppercase">{language === 'pt' ? 'EN' : 'PT'}</motion.span>
             </motion.button>
           </div>
 
@@ -154,18 +170,34 @@ const Header = () => {
           <div className="md:hidden flex items-center space-x-2">
             {/* Language Toggle Mobile */}
             <motion.button
-              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleLanguage}
-              className="flex items-center gap-1 px-2.5 py-2 rounded-full bg-secondary hover:bg-accent transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden"
+              className={`flex items-center gap-1 px-2.5 py-2 rounded-full bg-secondary transition-colors duration-200 text-sm font-medium text-foreground overflow-hidden ${language === 'pt' ? 'flex-row' : 'flex-row-reverse'}`}
               aria-label={language === 'pt' ? 'Switch to English' : 'Mudar para Portugues'}
             >
-              {language === 'pt' ? (
-                <USFlag className="w-5 h-4 rounded-sm" />
-              ) : (
-                <BrazilFlag className="w-5 h-4 rounded-sm" />
-              )}
-              <span className="uppercase text-xs">{language === 'pt' ? 'EN' : 'PT'}</span>
+              <motion.div
+                layout
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                className="relative w-6 h-6 overflow-hidden rounded-full shadow-[1px_1px_3px_rgba(0,0,0,0.3),-1px_-1px_2px_rgba(255,255,255,0.15)] dark:shadow-[1px_1px_3px_rgba(0,0,0,0.5),-1px_-1px_2px_rgba(255,255,255,0.08)] border border-white/20 dark:border-white/10"
+              >
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.div
+                    key={language}
+                    initial={{ x: -30, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 30, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    {language === 'pt' ? (
+                      <USFlag className="w-9 h-9" />
+                    ) : (
+                      <BrazilFlag className="w-9 h-9" />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
+              <motion.span layout transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="uppercase text-xs">{language === 'pt' ? 'EN' : 'PT'}</motion.span>
             </motion.button>
 
             <motion.button
