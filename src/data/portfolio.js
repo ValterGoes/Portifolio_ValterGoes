@@ -45,7 +45,7 @@ export const portfolioData = {
         url: maragonesaImg,
         alt: "Screenshot do projeto Maragonesa Silveira ADV"
       },
-      technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
+      technologies: ["React 19", "Vite", "Tailwind CSS", "Framer Motion"],
       github: "https://github.com/valtergoes/Maragonesa_Silveira_ADV",
       demo: "https://maragonesa.adv.br/"
     },
