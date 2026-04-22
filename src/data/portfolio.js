@@ -99,7 +99,7 @@ export const portfolioData = {
   skills: {
     frontend: [
       "React", "TypeScript", "JavaScript", "HTML5", "CSS3",
-      "Tailwind CSS", "shadcn/ui", "Radix UI", "Styled Components", "Sass"
+      "Tailwind CSS", "Styled Components"
     ],
     tools: [
       "Git", "GitHub", "VS Code", "Figma", "Vite",
