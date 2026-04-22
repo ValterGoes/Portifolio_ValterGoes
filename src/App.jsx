@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import CustomCursor from './components/CustomCursor';
 import './App.css';
 
 const About = lazy(() => import('./components/About'));
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <LanguageProvider>
+      <CustomCursor />
       <div className="min-h-screen bg-background text-foreground">
         <Header />
         <main>
