@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Download, Github, Linkedin, Mail } from 'lucide-react';
 
@@ -9,6 +10,58 @@ const WhatsAppIcon = ({ className }) => (
 import { portfolioData } from '../data/portfolio';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../data/translations';
+
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>{}[]~/\\|';
+
+const DecryptText = ({ text, delay = 0.3, speed = 30, iterationsPerChar = 3, repeatInterval = 0 }) => {
+  const [displayText, setDisplayText] = useState('');
+
+  const scramble = useCallback(() => {
+    let iteration = 0;
+    const totalIterations = text.length * iterationsPerChar;
+
+    const interval = setInterval(() => {
+      setDisplayText(
+        text
+          .split('')
+          .map((char, index) => {
+            if (char === ' ') return ' ';
+            const charResolved = index < iteration / iterationsPerChar;
+            if (charResolved) return text[index];
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+          })
+          .join('')
+      );
+
+      iteration++;
+      if (iteration > totalIterations) {
+        clearInterval(interval);
+        setDisplayText(text);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed, iterationsPerChar]);
+
+  useEffect(() => {
+    const initialTimeout = setTimeout(() => scramble(), delay * 1000);
+
+    let loopInterval;
+    if (repeatInterval > 0) {
+      const totalAnimDuration = text.length * iterationsPerChar * speed;
+      loopInterval = setInterval(() => {
+        scramble();
+      }, repeatInterval + totalAnimDuration);
+    }
+
+    return () => {
+      clearTimeout(initialTimeout);
+      if (loopInterval) clearInterval(loopInterval);
+    };
+  }, [delay, scramble, repeatInterval, text.length, iterationsPerChar, speed]);
+
+  return <>{displayText || '\u00A0'}</>;
+};
 
 const Hero = () => {
   const { aboutMe, contact } = portfolioData;
@@ -66,12 +119,14 @@ const Hero = () => {
               </motion.p>
 
               <motion.h1
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <span className="text-primary">{aboutMe.title.bold}</span>
+                <span className="text-primary font-mono">
+                  <DecryptText text={aboutMe.title.bold} delay={0.5} speed={35} iterationsPerChar={4} repeatInterval={138000} />
+                </span>
               </motion.h1>
 
               <motion.div
